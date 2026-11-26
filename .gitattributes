@@ -1,0 +1,3 @@
+# Preserve exact archived file bytes across platforms.
+configs/** -text
+results/** -text

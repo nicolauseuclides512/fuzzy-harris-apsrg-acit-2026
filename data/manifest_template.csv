@@ -1,0 +1,2 @@
+dataset,split,image_id,image_path,mask_path,fov_path
+DRIVE,training,21,data/working_png/DRIVE/DRIVE/training/images/21_training.png,data/working_png/DRIVE/DRIVE/training/1st_manual/21_manual1.png,data/working_png/DRIVE/DRIVE/training/mask/21_training_mask.png

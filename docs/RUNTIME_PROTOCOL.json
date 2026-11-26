@@ -1,0 +1,53 @@
+{
+  "selection_rule": "ID-based fixed subset, not outcome-based; chosen after accuracy experiments",
+  "repeats": 5,
+  "warmup": "one per method and dataset, first selected sorted ID, excluded",
+  "resolution": "native",
+  "compute_timer": "perf_counter_ns; preprocessing and segmentation only",
+  "io_timer": "separate cached image/FoV/reference decode per image; excludes hash checks, not cold disk",
+  "excluded": "config loading, hash checks, metrics, mask verification, disk writes, GC between runs",
+  "threads": "OpenCV 1; numerical thread environment requested 1, not OS affinity enforcement",
+  "opencv_threads": 1,
+  "opencl_enabled": false,
+  "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+  "cpu_identifier": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+  "logical_cpus": 12,
+  "opencv": "5.0.0",
+  "numpy": "2.5.1",
+  "pandas": "3.0.5",
+  "scipy": "1.18.0",
+  "skimage": "0.26.0",
+  "thread_env": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "BLIS_NUM_THREADS": "1"
+  },
+  "power_thermal_state": "not instrumented; user instructed AC power and idle machine",
+  "cap_policy": "500000 unchanged; cap reached is not proof frontier remains",
+  "retuning_allowed": false,
+  "selected_ids": {
+    "DRIVE": [
+      "21",
+      "25",
+      "29",
+      "33",
+      "37",
+      "40"
+    ]
+  },
+  "methods": [
+    "L00",
+    "A06"
+  ],
+  "config_sha256": {
+    "L00": "42047214e247d867c3db510430443fc0d1e44f21d57e5576b6c037b914779905",
+    "A06": "94aec6f01d10d62fbe1a54ed944e9ac04db53bb9c6684ec6ac00615f9d27c50d"
+  },
+  "scope": "Historical DRIVE subset of a broader experiment; six images, two reported methods, five repetitions. Not a whole-dataset estimate.",
+  "order": "Archived values retain original positions in a rotating three-method schedule; the additional method is outside this package. New two-method runs use their own schedule and are not identical timing conditions.",
+  "prediction_validation": "Every archived repetition was checked against stored confusion counts and metrics."
+}

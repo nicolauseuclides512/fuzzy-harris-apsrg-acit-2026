@@ -1,0 +1,9 @@
+contrast_id,control,treatment,isolated_factor,purpose,n_changed_paths,actual_changed_paths,expected_changed_paths,validation_passed
+C01_SEED_METHOD,A00,A01,Seed-selection method,Effect of hybrid seed scoring versus vesselness-only scoring at a matched count,1,apsrg_baseline.seed_selection_method,apsrg_baseline.seed_selection_method,True
+C02_SEED_COUNT,A01,A02,Target seed count,Effect of increasing the target from 35 to 77 seeds,1,apsrg_baseline.hybrid_seed.target_seed_count,apsrg_baseline.hybrid_seed.target_seed_count,True
+C03_SEED_DILATION,A02,A03,Seed dilation,Effect of changing seed dilation radius from 0 to 1,1,apsrg_baseline.hybrid_seed.seed_dilate_radius,apsrg_baseline.hybrid_seed.seed_dilate_radius,True
+C04_TRAVERSAL,A03,A04,Growing traversal,Effect of edge-delayed traversal versus BFS,1,apsrg_baseline.region_growing_mode,apsrg_baseline.region_growing_mode,True
+C05_REGION_VS_LOCAL,A04,A05,Acceptance rule,Region-mean-only versus local-path-only acceptance,1,apsrg_baseline.edge_delayed_region_growing.acceptance_mode,apsrg_baseline.edge_delayed_region_growing.acceptance_mode,True
+C06_PROPOSED_VS_LOCAL,A04,A06,Region branch in the proposed OR rule,Primary claim: Local-or-Region versus local-path only,1,apsrg_baseline.edge_delayed_region_growing.acceptance_mode,apsrg_baseline.edge_delayed_region_growing.acceptance_mode,True
+C07_PROPOSED_VS_REGION,A05,A06,Local branch in the proposed OR rule,Primary claim: Local-or-Region versus region-mean only,1,apsrg_baseline.edge_delayed_region_growing.acceptance_mode,apsrg_baseline.edge_delayed_region_growing.acceptance_mode,True
+C08_PRIORITY,A06,A07,Frontier priority,Sensitivity to Kang-product versus hybrid priority,1,apsrg_baseline.edge_delayed_region_growing.priority_mode,apsrg_baseline.edge_delayed_region_growing.priority_mode,True

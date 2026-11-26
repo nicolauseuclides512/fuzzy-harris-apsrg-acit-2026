@@ -1,0 +1,3 @@
+dataset,method,n_images,repeats_per_image,mean_image_median_seconds,median_image_median_seconds,q25_image_median_seconds,q75_image_median_seconds,median_paired_L00_over_method,cap_reached_images
+DRIVE,L00,6,5,0.08754428333333335,0.08663135,0.08567485,0.088330875,1.0,0
+DRIVE,A06,6,5,0.4129734166666667,0.41242520000000005,0.4049366,0.4237361,0.20897084706314112,0

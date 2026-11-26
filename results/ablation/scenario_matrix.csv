@@ -1,0 +1,10 @@
+scenario,description,analysis_role,seed_selection_method,target_seed_count,seed_dilate_radius,region_growing_mode,priority_mode,acceptance_mode
+L00,Legacy percentile-polling reference (context only),context_only,percentile_polling,35,0,bfs,kang_product,local_path
+A00,"Count-matched vesselness-only seeds (35, no dilation)",controlled_ablation,vesselness_topk,35,0,bfs,kang_product,local_path
+A01,"Selective Fuzzy-Harris seeds (35, no dilation)",controlled_ablation,selective_fuzzy_harris,35,0,bfs,kang_product,local_path
+A02,"Selective Fuzzy-Harris seeds (77, no dilation)",controlled_ablation,selective_fuzzy_harris,77,0,bfs,kang_product,local_path
+A03,"Selective Fuzzy-Harris seeds (77, radius-1 dilation)",controlled_ablation,selective_fuzzy_harris,77,1,bfs,kang_product,local_path
+A04,Edge-delayed traversal with local-path acceptance,controlled_ablation,selective_fuzzy_harris,77,1,edge_delayed,kang_product,local_path
+A05,Edge-delayed traversal with region-mean acceptance,controlled_ablation,selective_fuzzy_harris,77,1,edge_delayed,kang_product,region_mean
+A06,Proposed Local-or-Region acceptance,primary_proposed,selective_fuzzy_harris,77,1,edge_delayed,kang_product,local_or_region
+A07,Hybrid-priority sensitivity for Local-or-Region,sensitivity,selective_fuzzy_harris,77,1,edge_delayed,hybrid,local_or_region
