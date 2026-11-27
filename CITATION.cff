@@ -1,36 +1,22 @@
-{
-  "cff-version": "1.2.0",
-  "message": "If you use this software, please cite it using the metadata in this file.",
-  "title": "Fuzzy-Harris APSRG for Retinal Vessel Segmentation",
-  "type": "software",
-  "authors": [
-    {
-      "given-names": "Dimas Fanny Hebrasianto Permadi",
-      "affiliation": "Telkom University, Indonesia"
-    },
-    {
-      "given-names": "Annisaa Utami",
-      "affiliation": "Telkom University, Indonesia"
-    },
-    {
-      "given-names": "Nicolaus Euclides Wahyu Nugroho",
-      "affiliation": "Telkom University, Indonesia"
-    },
-    {
-      "given-names": "Regita Hutri Cahyaningrum",
-      "affiliation": "Telkom University, Indonesia"
-    },
-    {
-      "given-names": "Shellyn Euriska Putri",
-      "affiliation": "Telkom University, Indonesia"
-    }
-  ],
-  "version": "1.0.0-acit2026",
-  "license": "MIT",
-  "keywords": [
-    "retinal vessel segmentation",
-    "seeded region growing",
-    "fuzzy-Harris",
-    "training-free segmentation"
-  ]
-}
+cff-version: "1.2.0"
+message: "If you use this software, please cite it using the metadata in this file."
+title: "Fuzzy-Harris APSRG for Retinal Vessel Segmentation"
+type: "software"
+authors:
+  - given-names: "Dimas Fanny Hebrasianto Permadi"
+    affiliation: "Telkom University, Indonesia"
+  - given-names: "Annisaa Utami"
+    affiliation: "Telkom University, Indonesia"
+  - given-names: "Nicolaus Euclides Wahyu Nugroho"
+    affiliation: "Telkom University, Indonesia"
+  - given-names: "Regita Hutri Cahyaningrum"
+    affiliation: "Telkom University, Indonesia"
+  - given-names: "Shellyn Euriska Putri"
+    affiliation: "Telkom University, Indonesia"
+version: "1.0.0-acit2026"
+license: "MIT"
+keywords:
+  - "retinal vessel segmentation"
+  - "seeded region growing"
+  - "fuzzy-Harris"
+  - "training-free segmentation"

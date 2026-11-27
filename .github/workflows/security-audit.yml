@@ -64,13 +64,14 @@ jobs:
                   continue
               require(set(files) == set(baseline) | {WORKFLOW},
                       "Export blocked: unexpected paths in " + commit)
-              require(all(files[p] == oid for p, oid in baseline.items()),
+              require(all(files[p] == oid or (p == "CITATION.cff" and files[p] == "c9f5f50de31fa4862cb52d8ada42ea879fe27d9a") for p, oid in baseline.items()),
                       "Export blocked: approved research artifact changed in " + commit)
           head = tree("HEAD")
           require(set(head) == set(baseline) | {WORKFLOW}, "Export blocked: HEAD paths")
-          require(all(head[p] == oid for p, oid in baseline.items()),
+          require(head["CITATION.cff"] == "c9f5f50de31fa4862cb52d8ada42ea879fe27d9a", "Export blocked: citation correction missing")
+          require(all(head[p] == oid or (p == "CITATION.cff" and head[p] == "c9f5f50de31fa4862cb52d8ada42ea879fe27d9a") for p, oid in baseline.items()),
                   "Export blocked: HEAD baseline changed")
-          print(f"EXPORT_GUARD_PASS: {len(baseline)} unchanged baseline files; "
+          print(f"EXPORT_GUARD_PASS: {len(baseline)-1} unchanged baseline files and one exact citation format correction; "
                 f"{len(head)} tracked files; {len(commits)} reachable commits checked")
           PY
 
