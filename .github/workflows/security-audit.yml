@@ -1,0 +1,114 @@
+name: Research Artifact Security Audit
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout complete reachable history
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Export guard and frozen research baseline
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import subprocess
+
+          BASE = "5cc62dbada1dc0e84975c9e0fc0b60dca4078ee6"
+          ROOT = "afd358b1bc0341f87241b027358c03469e01a0d3"
+          EXPECTED_TREE = "2d2b056e1af39a96e7acebf588e41db0d47e3e20"
+          WORKFLOW = ".github/workflows/security-audit.yml"
+
+          def git(*args):
+              return subprocess.check_output(["git", *args])
+
+          def require(condition, message):
+              if not condition:
+                  raise SystemExit(message)
+
+          def tree(commit):
+              result = {}
+              for entry in git("ls-tree", "-r", "-z", commit).split(b"\0"):
+                  if not entry:
+                      continue
+                  meta, path = entry.split(b"\t", 1)
+                  mode, kind, oid = meta.decode("ascii").split()
+                  require(kind == "blob" and mode == "100644",
+                          "Export blocked: non-regular file or submodule")
+                  result[path.decode("utf-8")] = oid
+              return result
+
+          require(git("rev-parse", "--is-shallow-repository").strip() == b"false",
+                  "Export blocked: shallow history")
+          require(git("rev-parse", BASE + "^{tree}").decode().strip() == EXPECTED_TREE,
+                  "Export blocked: baseline tree mismatch")
+          baseline = tree(BASE)
+          require(len(baseline) == 93, "Export blocked: baseline count mismatch")
+          require(set(tree(ROOT)) == {"README.md"}, "Export blocked: initial tree mismatch")
+          commits = git("rev-list", "--all", "HEAD").decode().splitlines()
+          require(BASE in commits and ROOT in commits, "Export blocked: missing baseline history")
+          for commit in commits:
+              files = tree(commit)
+              if commit in (ROOT, BASE):
+                  continue
+              require(set(files) == set(baseline) | {WORKFLOW},
+                      "Export blocked: unexpected paths in " + commit)
+              require(all(files[p] == oid for p, oid in baseline.items()),
+                      "Export blocked: approved research artifact changed in " + commit)
+          head = tree("HEAD")
+          require(set(head) == set(baseline) | {WORKFLOW}, "Export blocked: HEAD paths")
+          require(all(head[p] == oid for p, oid in baseline.items()),
+                  "Export blocked: HEAD baseline changed")
+          print(f"EXPORT_GUARD_PASS: {len(baseline)} unchanged baseline files; "
+                f"{len(head)} tracked files; {len(commits)} reachable commits checked")
+          PY
+
+      - name: Install pinned Gitleaks
+        shell: bash
+        env:
+          GOPROXY: https://proxy.golang.org
+          GOSUMDB: sum.golang.org
+        run: |
+          go version
+          GOBIN="$RUNNER_TEMP/audit-bin" go install github.com/zricethezav/gitleaks/v8@v8.24.3
+          "$RUNNER_TEMP/audit-bin/gitleaks" version
+
+      - name: Scan history and current tracked tree
+        shell: bash
+        run: |
+          git log --all --format=oneline > /dev/null
+          "$RUNNER_TEMP/audit-bin/gitleaks" git --log-opts="--all HEAD" --redact=100 --exit-code=1 --no-banner .
+          "$RUNNER_TEMP/audit-bin/gitleaks" dir --redact=100 --exit-code=1 --no-banner .
+          echo GITLEAKS_PASS
+
+      - name: Set up Python for citation validation
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.11'
+
+      - name: Validate Citation File Format
+        shell: bash
+        run: |
+          python -m pip install --disable-pip-version-check 'cffconvert==2.0.0'
+          cffconvert --validate
+          echo CITATION_CFF_PASS
+
+      - name: Final security gate
+        if: ${{ success() }}
+        shell: bash
+        run: |
+          echo "FINAL_SECURITY_GATE_PASS" >> "$GITHUB_STEP_SUMMARY"
+          echo "Commit: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "Scope: frozen export tree, reachable Git history, secret detection and CFF schema." >> "$GITHUB_STEP_SUMMARY"
+          echo "This is not a dependency vulnerability audit, external scientific replication or publication approval." >> "$GITHUB_STEP_SUMMARY"
